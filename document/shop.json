@@ -1,0 +1,269 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "4403a892-df13-4296-8785-0fcffd706fd1",
+        "name": "shop"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Service",
+            "id": "350a094f-9847-49cc-aeba-7a3da0e2944f",
+            "name": "사용자"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "accessToken",
+                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDg3MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.qR5xBULZ6Jq7nul4Ivsf1WZUNJPYHLNGrcLjQgeeHTk"
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/logout"
+                },
+                "id": "2986dadf-e258-4b52-be4f-027702fcd2e0",
+                "name": "로그아웃",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "username",
+                        "value": "ljwasboy@nafer.com"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "password",
+                        "value": "1234"
+                      }
+                    ]
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{\n  \"email\": \"test@gmail.com\", \n  \"password\": \"test\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/login"
+                },
+                "id": "c97b32cf-1a3a-481f-8ff0-65b213bbbc16",
+                "name": "로그인",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "refresh_token",
+                        "value": "123123131321313231323"
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": "{\n  \"refresh_token\": \"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VG9rZW4iLCJpZCI6NSwiZXhwIjoxNjUzMzU4NTA2fQ.fQ6nmFfvTPEFZFMkC5yW37EOFJdgmjxRffCDjEBvY9CqVm_hum0874yJOVGHBEA251xWQVPUXd6DZv1ZtbOryA\"  \n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/user"
+                },
+                "id": "ae8188f4-8cdd-495c-be6a-2a7ed4d3f01e",
+                "name": "사용자 정보 조회",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDM4MywiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.40A2bKuqR8_xbVdHRBB-Wshr9LRR-ZtxcKkQcHC7eTs"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "accessToken",
+                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDE3OSwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.RO9jJx-aoMbhFXpq1mJGPQVhnnEX-Kqm1p7IcC1DCVQ"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "refreshToken",
+                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE2NTM2MzAxNzl9.XDpcX6KdrvJZuxEgxoTqq6cEfQqnKu45-eBfpw1UkOE"
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/token/refresh"
+                },
+                "id": "87489b8b-dbfa-4bb8-a840-51050f3e3795",
+                "name": "토큰 재 발급",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "email",
+                        "value": "ljwasboy@nafer.com"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "password",
+                        "value": "1234"
+                      }
+                    ]
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{\n  \"name\": \"test\",  \n  \"email\": \"aabbaa@gmail.com\",  \n  \"phoneNumber\": \"01000000000\",  \n  \"address\": \"경기도 성남시 정자동\" ,\n  \"password\" :\"test\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/sign"
+                },
+                "id": "1cc8bdb6-fa81-4bfb-aa1b-75750d0ed96b",
+                "name": "회원가입",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

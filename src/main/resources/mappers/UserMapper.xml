@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.UserMapper">
+    <select id="getUserList" resultType="com.shop.domain.model.UserInfo">
+        SELECT *
+        FROM study_user
+    </select>
+    <insert id="insertUser" useGeneratedKeys="true"  parameterType="com.shop.domain.request.User">
+        INSERT INTO study_user (email,name,password,role,phoneNumber,address,createDate)
+        VALUES(
+            #{email},
+            #{name},
+            #{password},
+            #{role},
+            #{address},
+            #{phoneNumber},
+            NOW()
+        );
+    </insert>
+
+    <select id="getFindByEmail" parameterType="String" resultType="com.shop.domain.request.User">
+        SELECT *
+        FROM study_user
+        where email = #{value}
+    </select>
+
+    <select id="getUserInfo" parameterType="String" resultType="com.shop.domain.model.UserInfo">
+        SELECT email,name,phoneNumber,address,createDate
+        FROM study_user
+        where email = #{value}
+    </select>
+</mapper>
