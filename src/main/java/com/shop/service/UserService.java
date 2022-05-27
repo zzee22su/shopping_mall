@@ -1,5 +1,4 @@
 package com.shop.service;
-
 import com.shop.domain.model.TokenInfo;
 import com.shop.domain.request.User;
 import com.shop.mapper.UserMapper;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.servlet.http.HttpServletRequest;
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
@@ -39,8 +36,7 @@ public class UserService {
 
     public Response refreshToken(String refreshToken, String accessToken) {
         if (accessToken == null || refreshToken == null || refreshToken.isEmpty() || accessToken.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "토큰 값을 전달 해주세요");
+            badRequestException("토큰 값을 전달 해주세요");
         }
 
         refreshToken = refreshToken.replace("Bearer ", "");
@@ -53,8 +49,7 @@ public class UserService {
         // 이메일 값으로 redis에서 refresh 키 반환
         String redisToken = redisUtil.getRedisRefreshToken(email);
         if (redisToken == null || !redisToken.equals(refreshToken)) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "유효하지 않는 토큰 입니다.");
+            badRequestException("유효하지 않는 토큰 입니다.");
         } else {
             // 토큰 생성
             TokenInfo tokenInfo = jwtUtil.createToken(email);
@@ -70,20 +65,17 @@ public class UserService {
 
     public Response logout(String accessToken) {
         if (accessToken == null || accessToken.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "토큰 값을 전달 해주세요");
+            badRequestException("토큰 값을 전달 해주세요");
         }
 
         accessToken = accessToken.replace("Bearer ", "");
         String email = jwtUtil.getAccessTokenToExpiredEmail(accessToken);
         if (email == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "유효하지 않는 토큰 입니다.");
+            badRequestException("유효하지 않는 토큰 입니다.");
         }
 
         if (redisUtil.getRedisRefreshToken(email) == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "유효하지 않는 토큰 입니다.");
+            badRequestException("유효하지 않는 토큰 입니다.");
         } else {
             redisUtil.deleteRefreshToken(email);
             redisUtil.saveLogOutToken(accessToken, jwtUtil.getExpired(accessToken));
@@ -95,6 +87,21 @@ public class UserService {
         Response response = new Response();
         String email = findTokenToEmail(token);
         response.setResponse("", userMapper.getUserInfo(email));
+        return response;
+    }
+
+    public Response checkSignedEmail(String email) {
+        if(email==null || email.isEmpty()){
+            badRequestException("검색할 이메일을 전달해주세요");
+        }
+        Response response = new Response();
+        User user= getFindByEmail(email);
+        if(user==null){
+            response.setResponse("가입되지 않은 이메일 입니다.", false);
+        }else{
+            response.setResponse("가입된 이메일이 있습니다.", true);
+        }
+
         return response;
     }
 
@@ -122,7 +129,7 @@ public class UserService {
         String email = jwtUtil.getAccessTokenToExpiredEmail(accessToken);
         if (email == null) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "유효하지 않는 토큰 입니다.");
+                    HttpStatus.BAD_REQUEST, "");
         }
         return email;
     }
@@ -134,5 +141,10 @@ public class UserService {
         } else {
             return token.replace(TOKEN_PREFIX, "");
         }
+    }
+
+    private void badRequestException(String msg){
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, msg);
     }
 }

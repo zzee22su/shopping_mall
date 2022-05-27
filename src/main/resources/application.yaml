@@ -1,7 +1,7 @@
 server:
   port: ${PORT:8090}
-
-
+  error:
+    include-message: always
 spring:
   messages:
     basename: messages

@@ -31,6 +31,59 @@
                       {
                         "enabled": true,
                         "type": "Text",
+                        "name": "email",
+                        "value": "ljwasboy@nafer.com"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "password",
+                        "value": "1234"
+                      }
+                    ]
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{\n  \"name\": \"test\",  \n  \"email\": \"aabbaa@gmail.com\",  \n  \"phoneNumber\": \"01000000000\",  \n  \"address\": \"경기도 성남시 정자동\" ,\n  \"password\" :\"test\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/sign"
+                },
+                "id": "e8e067fa-03ca-4011-b287-08a4f6c4d9c3",
+                "name": "가입 이메일 체크",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
                         "name": "accessToken",
                         "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDg3MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.qR5xBULZ6Jq7nul4Ivsf1WZUNJPYHLNGrcLjQgeeHTk"
                       }
