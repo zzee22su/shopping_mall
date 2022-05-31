@@ -2,17 +2,22 @@ package com.shop.service;
 import com.shop.domain.model.TokenInfo;
 import com.shop.domain.request.User;
 import com.shop.mapper.UserMapper;
+import com.shop.response.CustomException;
 import com.shop.response.Response;
+import com.shop.response.ResponseData;
 import com.shop.util.JWTUtil;
 import com.shop.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
+
+import static com.shop.response.ErrorCode.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
@@ -30,13 +35,25 @@ public class UserService {
     private final String TOKEN_PREFIX="Bearer";
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
-    public int createUser(User user) {
-        return userMapper.insertUser(user);
+    public ResponseEntity<ResponseData> createUser(User user) {
+        User findUser=getFindByEmail(user.getEmail());
+        if(findUser!=null){
+            throw new CustomException(INVALID_SIGNUP_EMAIL);
+        }
+
+        int error=userMapper.insertUser(user);
+
+        Response response = Response.getNewInstance();
+        if(error > 0){
+            return response.createResponseEntity("회원 가입 성공",true);
+        }else{
+            return response.createResponseEntity("회원 가입 실패",false);
+        }
     }
 
-    public Response refreshToken(String refreshToken, String accessToken) {
+    public ResponseEntity<ResponseData> refreshToken(String refreshToken, String accessToken) {
         if (accessToken == null || refreshToken == null || refreshToken.isEmpty() || accessToken.isEmpty()) {
-            badRequestException("토큰 값을 전달 해주세요");
+            throw new CustomException(INVALID_TOKEN);
         }
 
         refreshToken = refreshToken.replace("Bearer ", "");
@@ -45,11 +62,10 @@ public class UserService {
         // 토큰이 유효한지 확인 후 토큰에서 디코딩 후 이메일 값 추출
         String email = findTokenToEmail(accessToken);
 
-        Response response = new Response();
         // 이메일 값으로 redis에서 refresh 키 반환
         String redisToken = redisUtil.getRedisRefreshToken(email);
         if (redisToken == null || !redisToken.equals(refreshToken)) {
-            badRequestException("유효하지 않는 토큰 입니다.");
+            throw new CustomException(INVALID_REFRESH_TOKEN);
         } else {
             // 토큰 생성
             TokenInfo tokenInfo = jwtUtil.createToken(email);
@@ -58,51 +74,44 @@ public class UserService {
 
             tokenInfo.setRefreshToken("Bearer " + tokenInfo.getRefreshToken());
             tokenInfo.setAccessToken("Bearer " + tokenInfo.getAccessToken());
-            response.setResponse("refresh 토큰 생성", tokenInfo);
+            return Response.getNewInstance().createResponseEntity("refresh 토큰 생성", tokenInfo);
         }
-        return response;
     }
 
-    public Response logout(String accessToken) {
+    public ResponseEntity<ResponseData> logout(String accessToken) {
         if (accessToken == null || accessToken.isEmpty()) {
-            badRequestException("토큰 값을 전달 해주세요");
+            throw new CustomException(INVALID_TOKEN);
         }
 
         accessToken = accessToken.replace("Bearer ", "");
-        String email = jwtUtil.getAccessTokenToExpiredEmail(accessToken);
-        if (email == null) {
-            badRequestException("유효하지 않는 토큰 입니다.");
-        }
+        String email = findTokenToEmail(accessToken);
 
         if (redisUtil.getRedisRefreshToken(email) == null) {
-            badRequestException("유효하지 않는 토큰 입니다.");
+            throw new CustomException(INVALID_EXPIRED_REFRESH_TOKEN);
         } else {
             redisUtil.deleteRefreshToken(email);
             redisUtil.saveLogOutToken(accessToken, jwtUtil.getExpired(accessToken));
         }
-        return new Response("로그인 성공");
+        return Response.getNewInstance().createResponseEntity("로그아웃 되었습니다.",true);
     }
 
-    public Response getUserInfo(String token) {
+    public ResponseEntity<ResponseData> getUserInfo(String token) {
         Response response = new Response();
         String email = findTokenToEmail(token);
-        response.setResponse("", userMapper.getUserInfo(email));
-        return response;
+        return Response.getNewInstance().createResponseEntity("", userMapper.getUserInfo(email));
     }
 
-    public Response checkSignedEmail(String email) {
+    public ResponseEntity<ResponseData> checkSignedEmail(String email) {
         if(email==null || email.isEmpty()){
-            badRequestException("검색할 이메일을 전달해주세요");
+            throw new CustomException(INVALID_EMAIL);
         }
-        Response response = new Response();
+        Response response = Response.getNewInstance();
         User user= getFindByEmail(email);
         if(user==null){
-            response.setResponse("가입되지 않은 이메일 입니다.", false);
+            return response.createResponseEntity("가입되지 않은 이메일 입니다.", false);
         }else{
-            response.setResponse("가입된 이메일이 있습니다.", true);
+            return  response.createResponseEntity("가입된 이메일이 있습니다.", true);
         }
-
-        return response;
     }
 
     public boolean isLogOutToken(String accessToken) {
@@ -128,8 +137,7 @@ public class UserService {
     private String findTokenToEmail(String accessToken) {
         String email = jwtUtil.getAccessTokenToExpiredEmail(accessToken);
         if (email == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "");
+            throw new CustomException(INVALID_TOKEN);
         }
         return email;
     }
@@ -141,10 +149,5 @@ public class UserService {
         } else {
             return token.replace(TOKEN_PREFIX, "");
         }
-    }
-
-    private void badRequestException(String msg){
-        throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST, msg);
     }
 }

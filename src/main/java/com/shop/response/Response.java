@@ -1,55 +1,58 @@
 package com.shop.response;
 
 import lombok.Data;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import java.time.LocalDateTime;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @Data
 public class Response {
-    private String status;
-    private int statusCode;
-    private Object data;
-    private String message;
-
-    public Response() {
-        init();
+    public ResponseEntity<ResponseData> createErrorResponseEntity(ErrorCode errorCode) {
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(ResponseData.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(errorCode.getHttpStatus().value())
+                        .error(errorCode.getHttpStatus().name())
+                        .code(errorCode.name())
+                        .message(errorCode.getDetail())
+                        .build()
+                );
     }
 
-    public Response(String message) {
-        this.message = message;
-        init();
+    public ResponseData createErrorResponseData(ErrorCode errorCode) {
+        return ResponseData.builder()
+                .status(errorCode.getHttpStatus().value())
+                .error(errorCode.getHttpStatus().name())
+                .code(errorCode.name())
+                .message(errorCode.getDetail())
+                .build();
     }
 
-    public void setResponse(String message, Object value) {
-        this.message = message;
-        setData(value);
+    public ResponseData createResponseData(String msg, Object object) {
+        return ResponseData.builder()
+                .status(OK.value())
+                .data(object)
+                .code(OK.name())
+                .message(msg)
+                .build();
     }
 
-    private void init(){
-        status = HttpStatus.OK.getReasonPhrase();
-        statusCode = HttpStatus.OK.value();
+    public ResponseEntity<ResponseData> createResponseEntity(String msg, Object object) {
+        return ResponseEntity
+                .ok()
+                .body(ResponseData.builder()
+                        .status(OK.value())
+                        .data(object)
+                        .code(OK.name())
+                        .message(msg)
+                        .build()
+                );
     }
 
-    public void setResponse(String message, Object value, String status, int statusCode) {
-        this.message = message;
-        this.status = status;
-        this.statusCode = statusCode;
-        setData(value);
-    }
-
-    public void setErrorResponse(String message, HttpStatus httpStatus) {
-        this.status = httpStatus.getReasonPhrase();
-        this.statusCode = httpStatus.value();
-        this.message = message;
-    }
-
-
-    private void setData(Object value) {
-        if (data instanceof List) {
-            ((List<Object>) data).add(value);
-        } else {
-            data = value;
-        }
+    public static Response getNewInstance() {
+        return new Response();
     }
 }

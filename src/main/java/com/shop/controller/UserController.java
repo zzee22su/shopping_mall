@@ -1,14 +1,13 @@
 package com.shop.controller;
 
 import com.shop.domain.request.User;
-import com.shop.response.Response;
+import com.shop.response.ResponseData;
 import com.shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,18 +24,16 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/sign")
-    public String join(@RequestBody User user) {
+    public ResponseEntity<ResponseData> join(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
-        int error = userService.createUser(user);
-        System.out.println("error" + error);
-        return "";
+        return userService.createUser(user);
     }
 
     @PostMapping("/token/refresh")
     //public String join(HttpServletRequest request, @RequestBody String parameter){
     //public String refreshToken(HttpServletRequest request, @RequestParam("refresh_token") String refreshToken){
-    public Response refreshToken(HttpServletRequest request) {
+    public ResponseEntity<ResponseData> refreshToken(HttpServletRequest request) {
         //System.out.println("1parameter"+refreshToken+"\r\n");
         //System.out.println("2parameter"+request.getParameter("refresh_token")+"\r\n");
         String refreshToken = request.getParameter("refreshToken");
@@ -45,18 +42,18 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public Response logout(HttpServletRequest request) {
+    public ResponseEntity<ResponseData> logout(HttpServletRequest request) {
         return userService.logout(request.getParameter("accessToken"));
     }
 
     @GetMapping("/user")
-    public Response user(HttpServletRequest request) {
+    public ResponseEntity<ResponseData> user(HttpServletRequest request) {
         String token = request.getHeader(AUTHORIZATION).replace("Bearer ", "");
         return userService.getUserInfo(token);
     }
 
     @GetMapping("/sign")
-    public Response signedUser(HttpServletRequest request) {
+    public ResponseEntity<ResponseData> signedUser(HttpServletRequest request) {
         String email=request.getParameter("email");
         return userService.checkSignedEmail(email);
     }

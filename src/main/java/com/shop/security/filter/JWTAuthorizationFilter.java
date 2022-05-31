@@ -3,10 +3,10 @@ package com.shop.security.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.domain.request.User;
 import com.shop.response.Response;
+import com.shop.response.ResponseData;
 import com.shop.security.CustomUserDetail;
 import com.shop.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.shop.response.ErrorCode.*;
 
 //허가
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
@@ -44,23 +46,31 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     chain.doFilter(request, response);
                     return;
                 } else {
-                    setForbiddenResponse("인증에 실패하였습니다.", response);
+                    setResponseError(response,Response
+                            .getNewInstance()
+                            .createErrorResponseData(INVALID_UNAUTHORIZED));
+                    return;
                 }
             }
         } catch (Exception e) {
             if (e instanceof ExpiredJwtException) {
-                setForbiddenResponse(e.getMessage(), response);
-                return;
+                setResponseError(response, Response
+                        .getNewInstance()
+                        .createErrorResponseData(INVALID_EXPIRED_TOKEN));
+            } else {
+                setResponseError(response, Response
+                        .getNewInstance()
+                        .createErrorResponseData(INVALID_TOKEN));
             }
+
         }
         chain.doFilter(request, response);
     }
 
-    private void setForbiddenResponse(String msg, HttpServletResponse response) throws IOException {
-        Response resultResponse = new Response();
-        resultResponse.setErrorResponse(msg, HttpStatus.FORBIDDEN);
+    private void setResponseError(HttpServletResponse response, ResponseData responseData) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        new ObjectMapper().writeValue(response.getOutputStream(), resultResponse);
+        response.setStatus(responseData.getStatus());
+        new ObjectMapper().writeValue(response.getOutputStream(), responseData);
+        ;
     }
 }
