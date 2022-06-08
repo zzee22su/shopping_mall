@@ -12,8 +12,8 @@
             #{name},
             #{password},
             #{role},
-            #{address},
             #{phoneNumber},
+            #{address},
             NOW()
         );
     </insert>
