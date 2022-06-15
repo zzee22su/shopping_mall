@@ -19,9 +19,8 @@
               "entity": {
                 "type": "Request",
                 "method": {
-                  "requestBody": true,
-                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-                  "name": "POST"
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
                 },
                 "body": {
                   "formBody": {
@@ -48,7 +47,13 @@
                 "uri": {
                   "query": {
                     "delimiter": "&",
-                    "items": []
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "email",
+                        "value": "test@gmail.com"
+                      }
+                    ]
                   },
                   "scheme": {
                     "name": "http",
@@ -59,13 +64,7 @@
                 },
                 "id": "e8e067fa-03ca-4011-b287-08a4f6c4d9c3",
                 "name": "가입 이메일 체크",
-                "headers": [
-                  {
-                    "enabled": true,
-                    "name": "Content-Type",
-                    "value": "application/json"
-                  }
-                ]
+                "headers": []
               }
             },
             {
@@ -85,7 +84,7 @@
                         "enabled": true,
                         "type": "Text",
                         "name": "accessToken",
-                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDg3MiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.qR5xBULZ6Jq7nul4Ivsf1WZUNJPYHLNGrcLjQgeeHTk"
+                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1Mzk4MzQwMiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.IpkErjQYLj1lves2qaR30LfwhV0U-i5PYxgcW9M4lOs"
                       }
                     ]
                   },
@@ -159,7 +158,13 @@
                 },
                 "id": "c97b32cf-1a3a-481f-8ff0-65b213bbbc16",
                 "name": "로그인",
-                "headers": []
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Cookie",
+                    "value": "Idea-8db6eebd=2c58d715-b996-4b6f-bc27-25caa7571af5; ch-veil-id=38e110a6-dd81-4424-9223-69a01c365e11; refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE2NTQ2NzQ1MTF9.hMPKPrkZXVwvzdIoKRFA6X6LFg24Y0oAG-egyjZC0ms"
+                  }
+                ]
               }
             },
             {
@@ -203,9 +208,229 @@
                   {
                     "enabled": true,
                     "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDM4MywiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.40A2bKuqR8_xbVdHRBB-Wshr9LRR-ZtxcKkQcHC7eTs"
+                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1NDY3MzYyMywiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.z21x53DfRKDBx12YrcKpJMqWkPphziR027LLVRoV5vw"
                   }
                 ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "multipart/form-data",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "productInfo",
+                        "value": "{   \"name\" : \"액자\",     \"price\" : 3000,     \"deliveryCost\" : 3000,     \"point\" : 0,     \"productionOptions\":[         {          \"name\" : \"길이\",          \"optionValues\":[{\"value\":\"3cm\", \"price\":2000},{\"value\":\"2cm\", \"price\":1000}]         }] }"
+                      },
+                      {
+                        "type": "File",
+                        "name": "files"
+                      },
+                      {
+                        "type": "File",
+                        "name": "files"
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/product/90"
+                },
+                "id": "0128c60e-8672-4534-8346-2465c22d8ffc",
+                "name": "상품 정보 가져오기",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "multipart/form-data",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "productInfo",
+                        "value": "{   \"name\" : \"액자\",     \"price\" : 3000,     \"deliveryCost\" : 3000,     \"point\" : 0,     \"productionOptions\":[         {          \"name\" : \"길이\",          \"optionValues\":[{\"value\":\"3cm\", \"price\":2000},{\"value\":\"2cm\", \"price\":1000}]         }] }"
+                      },
+                      {
+                        "type": "File",
+                        "name": "files"
+                      },
+                      {
+                        "type": "File",
+                        "name": "files"
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "name": "pageNo",
+                        "value": "2"
+                      },
+                      {
+                        "enabled": true,
+                        "name": "pageSize",
+                        "value": "10"
+                      }
+                    ]
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/product"
+                },
+                "id": "f7851517-cc82-4831-a0fc-32ba2bbca071",
+                "name": "상품들 가져오기",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "multipart/form-data",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "productInfo",
+                        "value": "{   \"name\" : \"과자\",     \"price\" : 4000,     \"deliveryCost\" : 0,     \"point\" : 0,     \"productionOptions\": \t[     \t     {  \"name\" : \"묶음\",          \"optionValues\":[{\"type\":\"3개\", \"price\":2000},{\"type\":\"2cm\", \"price\":1000}]}\t      \t]  }"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "File",
+                        "name": "files"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "files",
+                        "value": ""
+                      },
+                      {
+                        "type": "Text",
+                        "name": "",
+                        "value": ""
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/product"
+                },
+                "id": "ab7eeeed-997c-4cc0-838a-c3b3fa6a2146",
+                "name": "상품생성",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "multipart/form-data"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "multipart/form-data",
+                    "items": [
+                      {
+                        "type": "Text",
+                        "name": "productInfo",
+                        "value": "{   \"name\" : \"액자\",     \"price\" : 3000,     \"deliveryCost\" : 3000,     \"point\" : 0,     \"productionOptions\":[         {          \"name\" : \"길이\",          \"optionValues\":[{\"value\":\"3cm\", \"price\":2000},{\"value\":\"2cm\", \"price\":1000}]         }] }"
+                      },
+                      {
+                        "type": "Text",
+                        "name": "files",
+                        "value": ""
+                      },
+                      {
+                        "type": "Text",
+                        "name": "files",
+                        "value": ""
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "secure": true,
+                    "name": "https",
+                    "version": "V11"
+                  },
+                  "host": "http:",
+                  "path": "//localhost:8090/api/v1/img/36"
+                },
+                "id": "0a73f434-3a1a-4191-b159-9032e08e068e",
+                "name": "이미지 가져오기",
+                "headers": []
               }
             },
             {
@@ -222,16 +447,14 @@
                     "encoding": "application/x-www-form-urlencoded",
                     "items": [
                       {
-                        "enabled": true,
                         "type": "Text",
                         "name": "accessToken",
-                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1MzYzMDE3OSwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.RO9jJx-aoMbhFXpq1mJGPQVhnnEX-Kqm1p7IcC1DCVQ"
+                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1Mzk4NDA3NywiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.vEreVQOdRaEV6bBHArili5GxMCPDMYZkIdwCaeNfRJM"
                       },
                       {
-                        "enabled": true,
                         "type": "Text",
                         "name": "refreshToken",
-                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE2NTM2MzAxNzl9.XDpcX6KdrvJZuxEgxoTqq6cEfQqnKu45-eBfpw1UkOE"
+                        "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE2NTM5ODMyMzB9.dpRlQ9NNclHStP0dTDBjjgWx_eN-EMIAzFszKQf85gU"
                       }
                     ]
                   },
@@ -289,7 +512,7 @@
                     ]
                   },
                   "bodyType": "Text",
-                  "textBody": "{\n  \"name\": \"test\",  \n  \"email\": \"aabbaa@gmail.com\",  \n  \"phoneNumber\": \"01000000000\",  \n  \"address\": \"경기도 성남시 정자동\" ,\n  \"password\" :\"test\"\n}"
+                  "textBody": "{\n  \"name\": \"test\",  \n  \"email\": \"tes2323t1@gmail.com\",  \n  \"phoneNumber\": \"01000000000\",  \n  \"address\": \"경기도 성남시 정자동\" ,\n  \"password\" :\"test\"  \n}"
                 },
                 "uri": {
                   "query": {
