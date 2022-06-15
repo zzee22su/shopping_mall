@@ -17,7 +17,8 @@ public enum ErrorCode {
     INVALID_EXPIRED_REFRESH_TOKEN(BAD_REQUEST, "refresh 토큰이 만료되었습니다."),
     INVALID_EMAIL_PASSWORD(BAD_REQUEST, "로그인할 Email과 비밀번호를 전달해주세요"),
     INVALID_FORBIDDEN(FORBIDDEN, "토큰이 만료 되었습니다."),
-    INVALID_UNAUTHORIZED(UNAUTHORIZED, "인증 오류 입니다.");
+    INVALID_UNAUTHORIZED(UNAUTHORIZED, "인증 오류 입니다."),
+    INVALID_NO_INPUT_PAGE(BAD_REQUEST, "페이지 값은 필수 입니다.");
 
     private final HttpStatus httpStatus;
     private final String detail;

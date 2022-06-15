@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.ProductMapper">
+    <insert id="insertProduct" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.shop.domain.request.ProductInfo">
+        INSERT INTO study_product (name,price,deliveryCost,point,content,createDate)
+        VALUES(
+            #{name},
+            #{price},
+            #{deliveryCost},
+            #{point},
+            #{content},
+            NOW()
+        );
+    </insert>
+
+    <insert id="insertOption" useGeneratedKeys="true"  keyProperty="id" keyColumn="id"  parameterType="java.util.List">
+        INSERT INTO study_option(name,product_id,createDate)
+        VALUES
+        <foreach collection="productionOptions" item="item" separator=",">
+            (
+                #{item.name},
+                #{item.productId},
+                NOW()
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertOptionType"  parameterType="java.util.List">
+        INSERT INTO study_option_type(type,price,option_id,createDate)
+        VALUES
+        <foreach collection="productionOptions" item="item" separator=",">
+            <foreach collection="item.optionValues" item="option" separator=",">
+            (
+                #{option.type},
+                #{option.price},
+                #{option.optionTypeId},
+                NOW()
+            )
+            </foreach>
+        </foreach>
+    </insert>
+
+    <select id="getProductModel" resultType="com.shop.domain.model.ProductModel" parameterType="integer">
+    SELECT name,
+           price,
+           deliveryCost,
+           point,
+           (SELECT CONCAT('{"productionOptions":[',
+                            GROUP_CONCAT(CONCAT('{"name":"', name, '","optionType":',(SELECT CONCAT('[',GROUP_CONCAT(JSON_OBJECT('type', type,'price', price)),']')
+                                                                                    FROM study_option_type
+                                                                                    WHERE option_id=study_option.id),'}'))
+                          ,']}')
+            FROM study_option
+            WHERE product_id =#{value})
+            AS productionOptionJsonStr,
+            (SELECT CONCAT('{"imgList":[',GROUP_CONCAT(id),']}')
+            FROM study_file
+            WHERE study_file.product_id=#{value})
+            AS imgJsonStr
+    FROM study_product
+    WHERE id =#{value}
+    </select>
+
+    <select id="getProductList" resultType="com.shop.domain.model.ProductListModel" parameterType="hashMap">
+    SELECT id,
+           name,
+           price,
+           deliveryCost,
+           point
+    FROM study_product
+    LIMIT #{pageSize} OFFSET #{pageOffset}
+    </select>
+</mapper>
+
+
+

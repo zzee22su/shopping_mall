@@ -1,4 +1,5 @@
 package com.shop.service;
+
 import com.shop.domain.model.TokenInfo;
 import com.shop.domain.request.User;
 import com.shop.mapper.UserMapper;
@@ -9,12 +10,11 @@ import com.shop.util.JWTUtil;
 import com.shop.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import static com.shop.response.ErrorCode.*;

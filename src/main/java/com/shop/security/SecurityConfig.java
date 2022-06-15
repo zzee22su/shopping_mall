@@ -55,6 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/api/v1/admin/**")
 //                .access("hasRole('ROLE_ADMIN')");
 
-        http.authorizeRequests().anyRequest().authenticated(); // 그외에 요청 주소는 인증 필요
+        //http.authorizeRequests().anyRequest().authenticated(); // 그외에 요청 주소는 인증 필요
     }
 }

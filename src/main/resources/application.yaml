@@ -27,3 +27,7 @@ mybatis:
 
 JwtProperties:
   token-prefix: Authorization
+
+file:
+    dir-root: D:\spring
+    dir-sub: \temp

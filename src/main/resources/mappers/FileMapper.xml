@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.FileMapper">
+    <insert id="insertFile" useGeneratedKeys="true"  keyProperty="id" keyColumn="id"   parameterType="hashMap"  >
+        INSERT INTO study_file (fileName,path,product_id,createDate)
+        VALUES(
+            #{fileName},
+            #{path},
+            #{productId},
+            NOW()
+        );
+    </insert>
+
+    <select id="getFilePath" resultType="string" parameterType="Integer">
+    SELECT path
+    FROM study_file
+    WHERE
+      id=${value}
+    </select>
+</mapper>
