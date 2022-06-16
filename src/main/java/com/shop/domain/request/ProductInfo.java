@@ -9,6 +9,7 @@ public class ProductInfo {
  private int price;
  private int deliveryCost;
  private int point;
+ private String category;
  private String content;
  private List<ProductionOption> productionOptions;
 

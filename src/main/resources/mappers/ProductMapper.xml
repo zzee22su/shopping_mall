@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shop.mapper.ProductMapper">
     <insert id="insertProduct" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.shop.domain.request.ProductInfo">
-        INSERT INTO study_product (name,price,deliveryCost,point,content,createDate)
+        INSERT INTO study_product (name,price,deliveryCost,point,content,category,createDate)
         VALUES(
             #{name},
             #{price},
             #{deliveryCost},
             #{point},
             #{content},
+            #{category},
             NOW()
         );
     </insert>
@@ -66,7 +67,11 @@
            name,
            price,
            deliveryCost,
-           point
+           point,
+            (SELECT CONCAT('{"imgList":[',GROUP_CONCAT(id),']}')
+            FROM study_file
+            WHERE study_file.product_id=study_product.id)
+            AS imgJsonStr
     FROM study_product
     LIMIT #{pageSize} OFFSET #{pageOffset}
     </select>
