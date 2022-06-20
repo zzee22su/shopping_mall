@@ -50,7 +50,7 @@ public class ProductService {
         value = productMapper.insertOptionType(productInfo.getProductionOptions());
 
         if (files!=null && files.length > 0) {
-            fileService.saveFile(files, "product", productInfo.getId());
+            fileService.productImgUpload(files, productInfo.getId());
         }
 
         return Response.getNewInstance().createResponseEntity("생성 완료", true);
