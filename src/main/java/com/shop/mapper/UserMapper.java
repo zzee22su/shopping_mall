@@ -14,4 +14,5 @@ public interface UserMapper {
     List<User> getUserList();
     User getFindByEmail(String email);
     UserInfo getUserInfo(String email);
+
 }

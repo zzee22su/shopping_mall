@@ -1,8 +1,8 @@
 package com.shop.service;
-
 import com.shop.domain.model.ProductListModel;
 import com.shop.domain.model.ProductModel;
 import com.shop.domain.request.ProductInfo;
+import com.shop.mapper.FileMapper;
 import com.shop.mapper.ProductMapper;
 import com.shop.response.Response;
 import com.shop.response.ResponseData;
@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,9 @@ import static com.shop.response.ErrorCode.INVALID_NO_INPUT_PAGE;
 public class ProductService {
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private FileMapper fileMapper;
 
     @Autowired
     private FileService fileService;
@@ -90,5 +94,32 @@ public class ProductService {
         map.put("pageSize", pageSize); //가져온 데이터에 키와 벨류값을 지정
         map.put("pageOffset", offset);
         return map;
+    }
+
+    public ResponseEntity<ResponseData> deleteProduct(Long productId){
+        // 1.option_file -> productId 에 해당하는 db 및 파일 삭제
+        // 2. study_option -> productId에 해당하는 id를 통해 study_option_type 의  옵션 아이디와 같은 데이터 삭제
+
+        List<Long> optionsId=productMapper.getOptionId(productId);
+
+        // 옵션 타입 삭제
+        optionsId.forEach(optionType ->{
+            productMapper.deleteOptionType(optionType);
+        });
+
+        // 옵션 삭제
+        productMapper.deleteOption(productId);
+
+        // 파일 삭제 및 file 데이터 삭제
+        List<Long> fileIdList=fileMapper.getProductFileId(productId);
+        fileIdList.forEach(fileId->{
+            fileService.deleteFile(fileId);
+        });
+        fileMapper.deleteFile(productId);
+
+        // 상품 삭제
+        productMapper.deleteProduct(productId);
+
+        return Response.getNewInstance().createResponseEntity("삭제 완료", "productModel");
     }
 }

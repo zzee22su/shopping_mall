@@ -42,6 +42,11 @@ public class FileService {
         saveFiles(files,getFolderPath("product"),productId);
     }
 
+    public boolean deleteFile(Long id){
+        File file = new File(getFolderPath("product")+File.separator+id);
+        return file.delete();
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     public ResponseEntity<ResponseData> imgUpload(MultipartFile file, int productID){
         Long id =saveFile(file,getFolderPath("product"),productID,true);

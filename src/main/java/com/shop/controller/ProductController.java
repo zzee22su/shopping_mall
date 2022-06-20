@@ -6,6 +6,7 @@ import com.shop.domain.request.ProductInfo;
 import com.shop.response.ResponseData;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,10 @@ public class ProductController {
     @GetMapping("/product")
     public ResponseEntity<ResponseData> getProductList(HttpServletRequest request){
         return productService.getProductList(request);
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<ResponseData> deleteProduct(@PathVariable Long id){
+        return productService.deleteProduct(id);
     }
 }
