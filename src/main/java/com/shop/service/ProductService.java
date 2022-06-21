@@ -1,4 +1,5 @@
 package com.shop.service;
+
 import com.shop.domain.model.ProductListModel;
 import com.shop.domain.model.ProductModel;
 import com.shop.domain.request.ProductInfo;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +56,11 @@ public class ProductService {
         if (files!=null && files.length > 0) {
             fileService.productImgUpload(files, productInfo.getId());
         }
+
+
+        productInfo.getContentImgList().forEach(imgId->{
+            fileMapper.updateProductFileId(productInfo.getId(),imgId);
+        });
 
         return Response.getNewInstance().createResponseEntity("생성 완료", true);
     }

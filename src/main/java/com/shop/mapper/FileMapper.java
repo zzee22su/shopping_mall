@@ -3,6 +3,7 @@ package com.shop.mapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,7 @@ public interface FileMapper {
 
     @Select("SELECT id FROM study_file WHERE product_id = #{productId}")
     List<Long> getProductFileId(Long productId);
+
+    @Update("UPDATE study_file SET product_id=#{productId} WHERE id=#{id}")
+    int updateProductFileId(int productId,Long id);
 }

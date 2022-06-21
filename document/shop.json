@@ -254,7 +254,7 @@
                     "version": "V11"
                   },
                   "host": "localhost:8090",
-                  "path": "/api/v1/product/90"
+                  "path": "/api/v1/product/122"
                 },
                 "id": "0128c60e-8672-4534-8346-2465c22d8ffc",
                 "name": "상품 정보 가져오기",
@@ -324,6 +324,61 @@
               "entity": {
                 "type": "Request",
                 "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.5",
+                  "name": "DELETE"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "multipart/form-data",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "productInfo",
+                        "value": "{    \t\"name\" : \"액자\",      \t\"price\" : 4000,     \t\"deliveryCost\" : 0,      \t\"point\" : 0,      \t\"productionOptions\":  [      \t\t\t \t{  \"name\" : \"길이\",   \"optionValues\":[  {\"type\":\"3cm\", \"price\":2000}, {\"type\":\"2cm\", \"price\":1000} ] }, \t\t\t\t{  \"name\" : \"색상\",    \"optionValues\":[  {\"type\":\"검정\", \"price\":2000}, {\"type\":\"빨강\", \"price\":1000} ] } \t\t\t    ], \t\"content\" : \"<html>dfdfdfdfdfddf </html>\", \t\"category\" : \"생활용품\" }"
+                      },
+                      {
+                        "type": "Text",
+                        "name": "files",
+                        "value": ""
+                      },
+                      {
+                        "type": "Text",
+                        "name": "files",
+                        "value": ""
+                      },
+                      {
+                        "type": "Text",
+                        "name": "",
+                        "value": ""
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/product/122"
+                },
+                "id": "a90818ed-6e59-4382-ba47-632fd322cd70",
+                "name": "상품삭제",
+                "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
                   "requestBody": true,
                   "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
                   "name": "POST"
@@ -337,17 +392,21 @@
                         "enabled": true,
                         "type": "Text",
                         "name": "productInfo",
-                        "value": "{   \"name\" : \"과자\",     \"price\" : 4000,     \"deliveryCost\" : 0,     \"point\" : 0,     \"productionOptions\": \t[     \t     {  \"name\" : \"묶음\",          \"optionValues\":[{\"type\":\"3개\", \"price\":2000},{\"type\":\"2cm\", \"price\":1000}]}\t      \t]  }"
+                        "value": "{    \t\"name\" : \"액자\",      \t\"price\" : 4000,     \t\"deliveryCost\" : 0,      \t\"point\" : 0,      \t\"productionOptions\":  [      \t\t\t \t{  \"name\" : \"길이\",   \"optionValues\":[  {\"type\":\"3cm\", \"price\":2000}, {\"type\":\"2cm\", \"price\":1000} ] }, \t\t\t\t{  \"name\" : \"색상\",    \"optionValues\":[  {\"type\":\"검정\", \"price\":2000}, {\"type\":\"빨강\", \"price\":1000} ] } \t\t\t    ], \t\"content\" : \"<html>dfdfdfdfdfddf </html>\", \t\"category\" : \"생활용품\", \t\"contentImgList\" : [91] }"
                       },
                       {
-                        "enabled": true,
-                        "type": "File",
-                        "name": "files"
-                      },
-                      {
-                        "enabled": true,
                         "type": "Text",
                         "name": "files",
+                        "value": ""
+                      },
+                      {
+                        "type": "Text",
+                        "name": "files",
+                        "value": ""
+                      },
+                      {
+                        "type": "Text",
+                        "name": "",
                         "value": ""
                       },
                       {
@@ -421,16 +480,61 @@
                     "items": []
                   },
                   "scheme": {
-                    "secure": true,
-                    "name": "https",
+                    "name": "http",
                     "version": "V11"
                   },
-                  "host": "http:",
-                  "path": "//localhost:8090/api/v1/img/36"
+                  "host": "localhost:8090",
+                  "path": "/api/v1/img/36"
                 },
                 "id": "0a73f434-3a1a-4191-b159-9032e08e068e",
                 "name": "이미지 가져오기",
                 "headers": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "multipart/form-data",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "File",
+                        "name": "file"
+                      }
+                    ]
+                  },
+                  "bodyType": "Form",
+                  "textBody": ""
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/img"
+                },
+                "id": "ba88070f-2fde-494e-9009-17f96ace9192",
+                "name": "이미지 업로드",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "multipart/form-data"
+                  }
+                ]
               }
             },
             {

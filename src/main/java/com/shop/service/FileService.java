@@ -48,9 +48,10 @@ public class FileService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
-    public ResponseEntity<ResponseData> imgUpload(MultipartFile file, int productID){
-        Long id =saveFile(file,getFolderPath("product"),productID,true);
+    public ResponseEntity<ResponseData> imgUpload(MultipartFile file){
+        Long id =saveFile(file,getFolderPath("product"),0,true);
         Map map = new HashMap<>();
+        map.put("imgId", (id));
         map.put("path", ("/api/v1/img/"+id));
         return Response.getNewInstance().createResponseEntity("", map);
     }

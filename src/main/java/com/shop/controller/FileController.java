@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class FileController {
-
     @Autowired
     private FileService fileService;
 
@@ -25,7 +24,7 @@ public class FileController {
     }
 
     @PostMapping("/img")
-    public ResponseEntity<ResponseData> imageUpload(HttpServletRequest request, @RequestParam MultipartFile file, @RequestParam int productId){
-        return fileService.imgUpload(file,productId);
+    public ResponseEntity<ResponseData> imageUpload(HttpServletRequest request, @RequestParam MultipartFile file){
+        return fileService.imgUpload(file);
     }
 }

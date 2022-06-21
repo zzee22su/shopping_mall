@@ -12,6 +12,7 @@ public class ProductInfo {
  private String category;
  private String content;
  private List<ProductionOption> productionOptions;
+ private List<Long> contentImgList;
 
  @Data
  public static class ProductionOption {
