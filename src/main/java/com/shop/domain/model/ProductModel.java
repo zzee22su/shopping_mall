@@ -15,6 +15,7 @@ public class ProductModel {
     private int price;
     private int deliveryCost;
     private int point;
+    private String content;
 
     @JsonIgnore
     private String productionOptionJsonStr;

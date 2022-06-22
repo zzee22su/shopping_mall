@@ -11,7 +11,7 @@
         );
     </insert>
 
-    <select id="getFilePath" resultType="string" parameterType="Integer">
+    <select id="getFilePath" resultType="string" parameterType="long">
     SELECT path
     FROM study_file
     WHERE

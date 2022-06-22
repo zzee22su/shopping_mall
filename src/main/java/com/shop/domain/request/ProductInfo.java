@@ -4,7 +4,7 @@ import java.util.List;
 
 @Data
 public class ProductInfo {
- private int id;
+ private Long id;
  private String name;
  private int price;
  private int deliveryCost;
@@ -16,15 +16,15 @@ public class ProductInfo {
 
  @Data
  public static class ProductionOption {
-  private int productId;
-  private int id;
+  private Long productId;
+  private Long id;
   private String name;
   private List<OptionValue> optionValues;
  }
 
  @Data
  public static class OptionValue{
-  private int optionTypeId;
+  private Long optionTypeId;
   private String type;
   private String price;
  }

@@ -19,7 +19,7 @@ public class FileController {
     private FileService fileService;
 
     @GetMapping(value="/img/{id}")
-    public ResponseEntity<Resource> getImg(@PathVariable int id){
+    public ResponseEntity<Resource> getImg(@PathVariable Long id){
         return fileService.getImg(id);
     }
 

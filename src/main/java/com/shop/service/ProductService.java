@@ -65,7 +65,7 @@ public class ProductService {
         return Response.getNewInstance().createResponseEntity("생성 완료", true);
     }
 
-    public ResponseEntity<ResponseData> getProduct(int id) {
+    public ResponseEntity<ResponseData> getProduct(Long id) {
         ProductModel productModel = productMapper.getProductModel(id);
         if (productModel == null) {
             return Response.getNewInstance().createResponseEntity("해당하는 상품이 없음", null);

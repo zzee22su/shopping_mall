@@ -38,7 +38,7 @@ public class FileService {
         createSaveFolder(savePath);
     }
 
-    public void productImgUpload(MultipartFile[] files, int productId){
+    public void productImgUpload(MultipartFile[] files, Long productId){
         saveFiles(files,getFolderPath("product"),productId);
     }
 
@@ -49,14 +49,14 @@ public class FileService {
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     public ResponseEntity<ResponseData> imgUpload(MultipartFile file){
-        Long id =saveFile(file,getFolderPath("product"),0,true);
+        Long id =saveFile(file,getFolderPath("product"), (long) 0,true);
         Map map = new HashMap<>();
         map.put("imgId", (id));
         map.put("path", ("/api/v1/img/"+id));
         return Response.getNewInstance().createResponseEntity("", map);
     }
 
-    private void saveFiles(MultipartFile[] files,String path,int id) {
+    private void saveFiles(MultipartFile[] files,String path,Long id) {
         for (MultipartFile file : files) {
             saveFile(file,path,id,false);
         }
@@ -69,7 +69,7 @@ public class FileService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
-    private Long saveFile(MultipartFile file, String path, int productId, boolean contentImg){
+    private Long saveFile(MultipartFile file, String path, Long productId, boolean contentImg){
         String fileName = file.getOriginalFilename();
 
         Map map = new HashMap<>();
@@ -101,7 +101,7 @@ public class FileService {
         }
     }
 
-    public ResponseEntity<Resource> getImg(int id) {
+    public ResponseEntity<Resource> getImg(Long id) {
         String path = fileMapper.getFilePath(id);
         path = path + File.separator + id;
 

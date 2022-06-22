@@ -41,11 +41,12 @@
         </foreach>
     </insert>
 
-    <select id="getProductModel" resultType="com.shop.domain.model.ProductModel" parameterType="integer">
+    <select id="getProductModel" resultType="com.shop.domain.model.ProductModel" parameterType="long">
     SELECT name,
            price,
            deliveryCost,
            point,
+           content,
            (SELECT CONCAT('{"productionOptions":[',
                             GROUP_CONCAT(CONCAT('{"name":"', name, '","optionType":',(SELECT CONCAT('[',GROUP_CONCAT(JSON_OBJECT('type', type,'price', price)),']')
                                                                                     FROM study_option_type

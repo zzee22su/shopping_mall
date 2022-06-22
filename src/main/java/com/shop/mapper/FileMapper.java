@@ -13,7 +13,7 @@ import java.util.Map;
 @Repository
 public interface FileMapper {
     int insertFile(Map map);
-    String getFilePath(int id);
+    String getFilePath(Long id);
 
     @Delete("DELETE FROM study_file WHERE product_id = #{productId}")
     int deleteFile(Long productId);
@@ -22,5 +22,5 @@ public interface FileMapper {
     List<Long> getProductFileId(Long productId);
 
     @Update("UPDATE study_file SET product_id=#{productId} WHERE id=#{id}")
-    int updateProductFileId(int productId,Long id);
+    int updateProductFileId(Long productId,Long id);
 }

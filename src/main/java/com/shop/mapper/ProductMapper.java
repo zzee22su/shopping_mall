@@ -20,7 +20,7 @@ public interface ProductMapper {
 
     int insertOptionType(List<ProductInfo.ProductionOption> productionOptions);
 
-    ProductModel getProductModel(int productId);
+    ProductModel getProductModel(Long productId);
 
     @Select("SELECT COUNT(*) FROM study_product")
     int getProductCount();
