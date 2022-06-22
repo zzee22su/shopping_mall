@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +34,7 @@ public class ProductService {
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     public ResponseEntity<ResponseData> createProduct(ProductInfo productInfo, MultipartFile[] files) {
+
         int value = productMapper.insertProduct(productInfo);
 
         productInfo.getProductionOptions().forEach(productionOption -> {
@@ -57,10 +57,11 @@ public class ProductService {
             fileService.productImgUpload(files, productInfo.getId());
         }
 
-
-        productInfo.getContentImgList().forEach(imgId->{
-            fileMapper.updateProductFileId(productInfo.getId(),imgId);
-        });
+        if(productInfo.getContentImgList()!=null){
+            productInfo.getContentImgList().forEach(imgId->{
+                fileMapper.updateProductFileId(productInfo.getId(),imgId);
+            });
+        }
 
         return Response.getNewInstance().createResponseEntity("생성 완료", true);
     }

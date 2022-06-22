@@ -47,7 +47,6 @@ public class FileService {
         return file.delete();
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     public ResponseEntity<ResponseData> imgUpload(MultipartFile file){
         Long id =saveFile(file,getFolderPath("product"), (long) 0,true);
         Map map = new HashMap<>();
@@ -68,7 +67,6 @@ public class FileService {
         return path;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     private Long saveFile(MultipartFile file, String path, Long productId, boolean contentImg){
         String fileName = file.getOriginalFilename();
 
@@ -84,11 +82,7 @@ public class FileService {
             file.transferTo(Paths.get(path + File.separator + map.get("id")));
         } catch (IOException e) {
             e.printStackTrace();
-            try {
-                throw new Exception();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
+            throw new RuntimeException("저장소에 경로가 존재 하지 않음");
         }
 
         return (Long) map.get("id");
