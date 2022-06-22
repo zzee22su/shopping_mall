@@ -57,7 +57,7 @@
             AS productionOptionJsonStr,
             (SELECT CONCAT('{"imgList":[',GROUP_CONCAT(id),']}')
             FROM study_file
-            WHERE study_file.product_id=#{value})
+            WHERE study_file.product_id=#{value} AND contentImg=0)
             AS imgJsonStr
     FROM study_product
     WHERE id =#{value}
