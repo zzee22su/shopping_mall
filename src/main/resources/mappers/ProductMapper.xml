@@ -71,7 +71,7 @@
            point,
             (SELECT CONCAT('{"imgList":[',GROUP_CONCAT(id),']}')
             FROM study_file
-            WHERE study_file.product_id=study_product.id)
+            WHERE study_file.product_id=study_product.id AND contentImg=0)
             AS imgJsonStr
     FROM study_product
     LIMIT #{pageSize} OFFSET #{pageOffset}
