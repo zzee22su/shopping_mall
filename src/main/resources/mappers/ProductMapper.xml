@@ -14,6 +14,23 @@
         );
     </insert>
 
+    <update id="updateProduct" parameterType="com.shop.domain.request.ProductInfo">
+        UPDATE study_product
+        SET
+            name = #{name},
+            price = #{price},
+            deliveryCost = #{deliveryCost},
+            point = #{point},
+            content = content,
+            category = #{category},
+            updateDate= NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="">
+        UPDATE study_product
+    </update>
+
     <insert id="insertOption" useGeneratedKeys="true"  keyProperty="id" keyColumn="id"  parameterType="java.util.List">
         INSERT INTO study_option(name,product_id,createDate)
         VALUES
@@ -55,9 +72,9 @@
             FROM study_option
             WHERE product_id =#{value})
             AS productionOptionJsonStr,
-            (SELECT CONCAT('{"imgList":[',GROUP_CONCAT(id),']}')
+            (SELECT CONCAT('{"imgList":[',GROUP_CONCAT(JSON_OBJECT('id', id,'filename', filename, 'contentImg',contentImg)),']}')
             FROM study_file
-            WHERE study_file.product_id=#{value} AND contentImg=0)
+            WHERE study_file.product_id=#{value})
             AS imgJsonStr
     FROM study_product
     WHERE id =#{value}

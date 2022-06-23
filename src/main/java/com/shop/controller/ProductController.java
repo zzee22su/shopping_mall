@@ -26,6 +26,13 @@ public class ProductController {
         return productService.createProduct(productInfo,files);
     }
 
+    @PutMapping("/product")
+    public ResponseEntity<ResponseData> updateProduct(@RequestParam("productInfo") String productInfoParam,
+                                                      @RequestPart(required = false) MultipartFile[] files) throws JsonProcessingException {
+        ProductInfo productInfo = new ObjectMapper().readValue(productInfoParam, ProductInfo.class);
+        return productService.updateProduct(productInfo,files);
+    }
+
     @GetMapping(value="/product/{id}")
     public ResponseEntity<ResponseData> getProduct(@PathVariable Long id){
         return productService.getProduct(id);

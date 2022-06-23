@@ -13,6 +13,7 @@ public class ProductInfo {
  private String content;
  private List<ProductionOption> productionOptions;
  private List<Long> contentImgList;
+ private List<Long> deleteImgFileList;
 
  @Data
  public static class ProductionOption {
