@@ -371,6 +371,11 @@
                         "enabled": true,
                         "name": "pageSize",
                         "value": "39"
+                      },
+                      {
+                        "enabled": true,
+                        "name": "category",
+                        "value": "생활용품"
                       }
                     ]
                   },

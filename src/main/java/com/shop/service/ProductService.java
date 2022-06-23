@@ -98,7 +98,6 @@ public class ProductService {
         // 상품정보 수정에서 새로 추가된 이미지로 study_file에 contentimg 값을 1로 변경
         Stream<Long> addContentImg = differenceArray(inputContentImgList, contentImgList);
         addContentImg.forEach(id -> {
-            int error = fileMapper.isExistsFileInProduct(productInfo.getId(), id);
             if (fileMapper.getFilePath(id) != null) {
                 fileMapper.updateProductFileId(productInfo.getId(), id);
             }
@@ -147,9 +146,11 @@ public class ProductService {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         int offset = (pageNo - 1) * pageSize;
+
         Map map = new HashMap();
         map.put("pageSize", pageSize); //가져온 데이터에 키와 벨류값을 지정
         map.put("pageOffset", offset);
+        map.put("category", request.getParameter("category"));
         return map;
     }
 

@@ -32,5 +32,5 @@ public interface FileMapper {
     int updateProductFileId(Long productId,Long id);
 
     @Select("SELECT EXISTS( SELECT id FROM study_file WHERE product_id = #{productId} AND id = #{fileId}) AS success")
-    int isExistsFileInProduct(Long productId, Long fileId);
+    boolean isExistsFileInProduct(Long productId, Long fileId);
 }

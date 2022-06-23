@@ -16,6 +16,7 @@ public class ProductListModel {
     private int price;
     private int deliveryCost;
     private int point;
+    private String category;
     @JsonIgnore
     private String imgJsonStr;
     public List<Object> imgList = new ArrayList();
