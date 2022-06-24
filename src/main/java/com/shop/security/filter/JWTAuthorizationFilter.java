@@ -53,6 +53,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                 }
             }
         } catch (Exception e) {
+            System.out.println(e);
             if (e instanceof ExpiredJwtException) {
                 setResponseError(response, Response
                         .getNewInstance()

@@ -208,7 +208,7 @@
                   {
                     "enabled": true,
                     "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1NDY3MzYyMywiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.z21x53DfRKDBx12YrcKpJMqWkPphziR027LLVRoV5vw"
+                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1NjA1Mzk4NCwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.jFEZgX9vT2bBclG5ER0MA55lsw03X-hiUObjI_dXq_w"
                   }
                 ]
               }
@@ -260,6 +260,59 @@
                     "enabled": true,
                     "name": "Content-Type",
                     "value": "application/x-www-form-urlencoded"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+                  "name": "PUT"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": [
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "",
+                        "value": "ljwasboy@nafer.com"
+                      },
+                      {
+                        "enabled": true,
+                        "type": "Text",
+                        "name": "password",
+                        "value": "1234"
+                      }
+                    ]
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{   \n  \"phoneNumber\": \"0100000230000\",  \n  \"address\": \"경기도 성남시 정자동\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "http",
+                    "version": "V11"
+                  },
+                  "host": "localhost:8090",
+                  "path": "/api/v1/user"
+                },
+                "id": "47b92f27-bae3-40d4-a59b-79e2fd283421",
+                "name": "회원 수정",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY1NjA1Mzk4NCwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSJ9.jFEZgX9vT2bBclG5ER0MA55lsw03X-hiUObjI_dXq_w"
                   }
                 ]
               }

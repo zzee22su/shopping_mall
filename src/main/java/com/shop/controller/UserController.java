@@ -1,5 +1,8 @@
 package com.shop.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shop.domain.request.ProductInfo;
 import com.shop.domain.request.User;
 import com.shop.response.ResponseData;
 import com.shop.service.UserService;
@@ -48,6 +51,13 @@ public class UserController {
     public ResponseEntity<ResponseData> user(HttpServletRequest request) {
         String token = request.getHeader(AUTHORIZATION).replace("Bearer ", "");
         return userService.getUserInfo(token);
+    }
+
+    @PutMapping("/user")
+    public ResponseEntity<ResponseData> updateUser(HttpServletRequest request ,@RequestBody String parameters) throws JsonProcessingException {
+        String token = request.getHeader(AUTHORIZATION).replace("Bearer ", "");
+        User user = new ObjectMapper().readValue(parameters, User.class);
+        return userService.updateUser(token, user);
     }
 
     @GetMapping("/sign")

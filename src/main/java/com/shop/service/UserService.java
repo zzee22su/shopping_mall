@@ -101,6 +101,18 @@ public class UserService {
         return Response.getNewInstance().createResponseEntity("", userMapper.getUserInfo(email));
     }
 
+    public ResponseEntity<ResponseData> updateUser(String token,User user){
+        if(user.getAddress()==null || user.getPhoneNumber()==null){
+            // 잘못 요청 예외 처리 진행
+        }
+
+        String email = findTokenToEmail(token);
+        if(email!=null){
+            userMapper.updateUser(email,user.getPhoneNumber(),user.getAddress());
+        }
+        return Response.getNewInstance().createResponseEntity("회원 정보 수정 완료",true);
+    }
+
     public ResponseEntity<ResponseData> checkSignedEmail(String email) {
         if(email==null || email.isEmpty()){
             throw new CustomException(INVALID_EMAIL);

@@ -14,8 +14,8 @@ import java.util.Date;
 @Component
 public class JWTUtil {
     private long TIME_MIN = 1000 * 60;
-    private long TIME_ACCESS_TOKEN_EXPIRED_TIME = TIME_MIN * 2;
-    private long TIME_REFRESH_TOKEN_EXPIRED_TIME = TIME_MIN * 10;
+    private long TIME_ACCESS_TOKEN_EXPIRED_TIME = TIME_MIN * 30;
+    private long TIME_REFRESH_TOKEN_EXPIRED_TIME = TIME_MIN * 30;
     private String SECRET = "TEST1234123123|TEST1234123123|1234123";
     private Key SECRET_KEY;
 
