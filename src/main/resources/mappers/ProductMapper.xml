@@ -21,7 +21,7 @@
             price = #{price},
             deliveryCost = #{deliveryCost},
             point = #{point},
-            content = content,
+            content = #{content},
             category = #{category},
             updateDate= NOW()
         WHERE id = #{id}
