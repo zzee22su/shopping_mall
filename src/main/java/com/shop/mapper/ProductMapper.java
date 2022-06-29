@@ -25,8 +25,7 @@ public interface ProductMapper {
 
     ProductModel getProductModel(Long productId);
 
-    @Select("SELECT COUNT(*) FROM study_product")
-    int getProductCount();
+    int getProductCount(String category);
 
     List<ProductListModel> getProductList(Map map);
 

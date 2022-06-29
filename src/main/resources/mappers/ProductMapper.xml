@@ -98,6 +98,14 @@
     LIMIT #{pageSize} OFFSET #{pageOffset}
     </select>
 
+    <select id="getProductCount" resultType="integer"  parameterType="string">
+        SELECT COUNT(*)
+        FROM study_product
+        <if test="value != null">
+            WHERE category=#{value}
+        </if>
+    </select>
+
 </mapper>
 
 

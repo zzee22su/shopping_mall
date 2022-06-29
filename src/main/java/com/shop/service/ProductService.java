@@ -125,7 +125,7 @@ public class ProductService {
     }
 
     public ResponseEntity<ResponseData> getProductList(HttpServletRequest request) {
-        int totalCount = productMapper.getProductCount();
+        int totalCount = productMapper.getProductCount(request.getParameter("category"));
         List<ProductListModel> productListModelList = new ArrayList<>();
         if (totalCount > 0) {
             try {
