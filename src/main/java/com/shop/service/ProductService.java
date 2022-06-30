@@ -37,21 +37,26 @@ public class ProductService {
 
     @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     public ResponseEntity<ResponseData> createProduct(ProductInfo productInfo, MultipartFile[] files) {
-
-        // 상품 디비에 추가
-        int value = productMapper.insertProduct(productInfo);
-
-        insertOption(productInfo);
-
+        // study_file_group에 그룹 이름 넣고 해당 id를 file 테이블에 추가 해야 함.
         if (files != null && files.length > 0) {
-            fileService.productImgUpload(files, productInfo.getId());
+            Long groupId= createFileGroup("product");
+            productInfo.setFileGroupId(groupId);
+            fileService.productImgUpload(files, groupId);
         }
 
         if (productInfo.getContentImgList() != null) {
             productInfo.getContentImgList().forEach(imgId -> {
-                fileMapper.updateProductFileId(productInfo.getId(), imgId);
+                if(productInfo.getFileGroupId()==null){
+                    Long groupId= createFileGroup("product");
+                    productInfo.setFileGroupId(groupId);
+                }
+                fileMapper.updateFileToGroupId(productInfo.getFileGroupId(), imgId);
             });
         }
+
+        // 상품 디비에 추가
+        int value = productMapper.insertProduct(productInfo);
+        insertOption(productInfo);
 
         return Response.getNewInstance().createResponseEntity("생성 완료", true);
     }
@@ -99,7 +104,7 @@ public class ProductService {
         Stream<Long> addContentImg = differenceArray(inputContentImgList, contentImgList);
         addContentImg.forEach(id -> {
             if (fileMapper.getFilePath(id) != null) {
-                fileMapper.updateProductFileId(productInfo.getId(), id);
+                fileMapper.updateFileToGroupId(productInfo.getFileGroupId(), id);
             }
         });
 
@@ -154,21 +159,28 @@ public class ProductService {
         return map;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, transactionManager = "transactionManager", rollbackFor = Exception.class)
     public ResponseEntity<ResponseData> deleteProduct(Long productId) {
         // 1.option_file -> productId 에 해당하는 db 및 파일 삭제
-        // 2. study_option -> productId에 해당하는 id를 통해 study_option_type 의  옵션 아이디와 같은 데이터 삭제
+        // 2.study_option -> productId에 해당하는 id를 통해 study_option_type 의  옵션 아이디와 같은 데이터 삭제
 
         deleteOption(productId);
 
-        // 파일 삭제 및 file 데이터 삭제
-        List<Long> fileIdList = fileMapper.getProductFileId(productId);
-        fileIdList.forEach(fileId -> {
-            fileService.deleteFile(fileId);
-        });
-        fileMapper.deleteProductFiles(productId);
+        Long fileGroupId=fileMapper.getProductToFileGroupId(productId);
+        if(fileGroupId!=null){
+            // 파일 삭제 및 file 데이터 삭제
+            List<Long> fileIdList = fileMapper.getProductFileId(fileGroupId);
+            fileIdList.forEach(fileId -> {
+                fileService.deleteFile(fileId);
+            });
+            fileMapper.deleteProductFiles(fileGroupId);
+        }
 
         // 상품 삭제
         productMapper.deleteProduct(productId);
+        if(fileGroupId!=null){
+            fileMapper.deleteFileGroup(fileGroupId);
+        }
 
         return Response.getNewInstance().createResponseEntity("삭제 완료", "productModel");
     }
@@ -192,14 +204,16 @@ public class ProductService {
         );
 
 
-        int value = productMapper.insertOption(productInfo.getProductionOptions());
-        productInfo.getProductionOptions().forEach(productionOption -> {
-                    productionOption.getOptionValues().forEach(optionValue -> {
-                        optionValue.setOptionTypeId(productionOption.getId());
-                    });
-                }
-        );
-        value = productMapper.insertOptionType(productInfo.getProductionOptions());
+        if(productInfo.getProductionOptions().size() > 0){
+            int value = productMapper.insertOption(productInfo.getProductionOptions());
+            productInfo.getProductionOptions().forEach(productionOption -> {
+                        productionOption.getOptionValues().forEach(optionValue -> {
+                            optionValue.setOptionTypeId(productionOption.getId());
+                        });
+                    }
+            );
+            value = productMapper.insertOptionType(productInfo.getProductionOptions());
+        }
     }
 
     // 배열의 차집합을 구한다.
@@ -207,6 +221,13 @@ public class ProductService {
         return inputArray.stream().filter(id -> {
             return !orgArray.contains(id);
         });
+    }
+
+    private Long createFileGroup(String groupName){
+        Map map = new HashMap<>();
+        map.put("groupName",groupName);
+        fileMapper.insertFileGroup(map);
+        return (Long) map.get("id");
     }
 
 }

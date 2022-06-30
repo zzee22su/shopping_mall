@@ -11,6 +11,7 @@ public class ProductInfo {
  private int point;
  private String category;
  private String content;
+ private Long fileGroupId;
  private List<ProductionOption> productionOptions;
  private List<Long> contentImgList;
  private List<Long> deleteImgFileList;

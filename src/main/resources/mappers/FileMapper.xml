@@ -2,12 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shop.mapper.FileMapper">
     <insert id="insertFile" useGeneratedKeys="true"  keyProperty="id" keyColumn="id"   parameterType="hashMap"  >
-        INSERT INTO study_file (fileName,path,product_id,contentImg,createDate)
+        INSERT INTO study_file (fileName,path,contentImg,
+        <if test="fileGroup != null">
+            file_group,
+        </if>
+        createDate)
         VALUES(
             #{fileName},
             #{path},
-            #{productId},
             #{contentImg},
+            <if test="fileGroup != null">
+            #{fileGroup},
+            </if>
             NOW()
         );
     </insert>

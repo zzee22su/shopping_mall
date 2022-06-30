@@ -36,8 +36,8 @@ public class FileService {
         createSaveFolder(savePath);
     }
 
-    public void productImgUpload(MultipartFile[] files, Long productId){
-        saveFiles(files,getFolderPath("product"),productId);
+    public void productImgUpload(MultipartFile[] files, Long groupId){
+        saveFiles(files,getFolderPath("product"),groupId);
     }
 
     public boolean deleteFile(Long id){
@@ -53,9 +53,9 @@ public class FileService {
         return Response.getNewInstance().createResponseEntity("", map);
     }
 
-    private void saveFiles(MultipartFile[] files,String path,Long id) {
+    private void saveFiles(MultipartFile[] files,String path,Long groupId) {
         for (MultipartFile file : files) {
-            saveFile(file,path,id,false);
+            saveFile(file,path,groupId,false);
         }
     }
 
@@ -65,13 +65,15 @@ public class FileService {
         return path;
     }
 
-    private Long saveFile(MultipartFile file, String path, Long productId, boolean contentImg){
+    private Long saveFile(MultipartFile file, String path, Long groupId, boolean contentImg){
         String fileName = file.getOriginalFilename();
 
         Map map = new HashMap<>();
         map.put("fileName", fileName);
         map.put("path", path);
-        map.put("productId", productId);
+        if(groupId >0){
+            map.put("fileGroup", groupId);
+        }
         map.put("contentImg", contentImg);
 
         fileMapper.insertFile(map);
